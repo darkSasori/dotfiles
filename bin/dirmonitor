@@ -1,0 +1,30 @@
+#!/bin/sh
+# El Neuer <lineufelipe@gmail.com>
+
+if [ -z $1 ] || [ -z "$2" ]; then
+    echo "usage: $0 directory command"
+    exit 0
+fi;
+
+DIR=$1
+CMD=$2
+
+trap killCommand SIGINT
+killCommand() {
+    kill -9 $PID
+    exit 0
+}
+
+$CMD &
+PID=$!
+while [ 1 ]; do
+    EVENT=$(inotifywait -q -e MODIFY -e CREATE -e DELETE --format '%e' -t -1  -r $DIR)
+    [ $? != 0 ] && exit
+    if [ $EVENT == "MODIFY" ] || [ $EVENT == "CREATE" ] || [ $EVENT == "DELETE" ]; then
+        kill -9 $PID
+        wait $PID 2>/dev/null
+        sleep 1
+        $CMD &
+        PID=$!
+    fi
+done
