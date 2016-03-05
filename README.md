@@ -17,5 +17,6 @@ Install tmux
 ============
 
 ```
+touch ~/.tmux-local.conf
 ln -sv ~/.bash/tmux.conf ~/.tmux.conf
 ```
