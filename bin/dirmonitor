@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # El Neuer <lineufelipe@gmail.com>
 
 if [ -z $1 ] || [ -z "$2" ]; then
