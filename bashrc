@@ -34,10 +34,6 @@ alias np='nano PKGBUILD'
 alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo pacman -Syyuu  &&
 sudo pacman -Suu'
 
-# Disable php xdebug
-alias php='php -dzend_extension=xdebug.so'
-alias phpunit='php $(which phpunit)'
-
 # ex - archive extractor
 # usage: ex <file>
 ex ()
@@ -74,6 +70,11 @@ slack(){
 pokerstars(){
 	wine ~/.wine/drive_c/Program\ Files\ \(x86\)/PokerStars.NET/PokerStars.exe
 }
+
+phing(){
+    ./vendor/bin/phing $@
+}
+
 
 # PATH
 export PATH=$PATH:~/.bash/bin;
