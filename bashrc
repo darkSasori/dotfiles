@@ -23,7 +23,6 @@ export HISTCONTROL=ignoreboth
 export JAVA_FONTS=/usr/share/fonts/TTF
 export EDITOR=/usr/bin/vim
 
-alias ls='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 alias ll='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 alias la='ls -la --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 alias grep='grep --color=tty -d skip'
@@ -64,7 +63,7 @@ c9(){
 }
 
 slack(){
-	google-chrome --app="https://slack.com"
+	google-chrome --app="https://socialbase.slack.com"
 }
 
 pokerstars(){
@@ -73,6 +72,14 @@ pokerstars(){
 
 phing(){
     ./vendor/bin/phing $@
+}
+
+doctrine(){
+    ./vendor/bin/doctrine $@
+}
+
+phpunit(){
+    ./vendor/bin/phpunit $@
 }
 
 

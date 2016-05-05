@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "usage: $0 version";
+	exit 0;
+fi
+
+ssh -p 40 -i ~/sbkey_20150204_app.pem -L 3307:mysql-producao-$1.ckxzlgg1orrm.sa-east-1.rds.amazonaws.com:3306 ubuntu@54.233.71.155
