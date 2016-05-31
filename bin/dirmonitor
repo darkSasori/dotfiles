@@ -33,6 +33,13 @@ restartCommand() {
     PID=$!
 }
 
+trap termCommand SIGTERM
+termCommand() {
+    kill -9 $PID
+    wait $PID 2>/dev/null
+    exit 0
+}
+
 $CMD &
 PID=$!
 while [ 1 ]; do
