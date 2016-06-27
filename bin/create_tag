@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+	echo "usage: $0 base repositories"
+	exit 1
+fi
+
+TAG=`date +%Y%m%d%H%M`
+
+for i in $(ls -1 $1); do
+    if [ "$i" == "devops" ]; then
+        continue
+    fi
+    cd $1/$i;
+    echo "Dir $i";
+
+    gpull;
+    gtag ${TAG};
+
+done;
+
+echo "Tag criada '${TAG}'"

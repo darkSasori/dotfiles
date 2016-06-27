@@ -32,6 +32,7 @@ alias free='free -m'                      # show sizes in MB
 alias np='nano PKGBUILD'
 alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo pacman -Syyuu  &&
 sudo pacman -Suu'
+alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
 
 # ex - archive extractor
 # usage: ex <file>
@@ -82,6 +83,26 @@ phpunit(){
     ./vendor/bin/phpunit $@
 }
 
+gpull() {
+    branch=`gbranch`;
+    git checkout master;
+    git pull -p;
+    git checkout $branch;
+}
+
+gtag() {
+    if [ -z $1 ]; then
+        echo "usage: gittag tag";
+        exit 1;
+    fi
+    branch=`gbranch`;
+    gitpull;
+    git checkout .;
+    git reset --hard HEAD;
+    git tag $2;
+    git push --tags;
+    git checkout $branch;
+}
 
 # PATH
 export PATH=$PATH:~/.bash/bin;
