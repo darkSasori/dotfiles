@@ -33,6 +33,7 @@ alias np='nano PKGBUILD'
 alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo pacman -Syyuu  &&
 sudo pacman -Suu'
 alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
+alias virtualenv-list="ls -1 ~/virtualenv"
 
 # ex - archive extractor
 # usage: ex <file>
@@ -102,6 +103,15 @@ gtag() {
     git tag $2;
     git push --tags;
     git checkout $branch;
+}
+
+activate() {
+    if [ ! -f ]; then
+        echo "$1 not found"
+        virtualenv-list;
+    else
+        source ~/virtualenv/$1/bin/activate;
+    fi
 }
 
 # PATH
