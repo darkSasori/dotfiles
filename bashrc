@@ -4,7 +4,7 @@ fi
 
 source ~/.bash/git-prompt.sh
 
-xhost +local:root > /dev/null 2>&1
+# xhost +local:root > /dev/null 2>&1
 
 complete -cf sudo
 
@@ -125,3 +125,5 @@ export PATH=$PATH:~/.bash/bin;
 PS1_COLOR='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]$(__git_ps1 " (%s)")\$ '
 PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)")\$ '
 PS1=$PS1_COLOR
+
+export GOPATH=~/.gopath
