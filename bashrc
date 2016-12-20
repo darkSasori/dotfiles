@@ -119,11 +119,11 @@ activate() {
 }
 
 # PATH
-export PATH=$PATH:~/.bash/bin;
 
 # prompt
-PS1_COLOR='[\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]$(__git_ps1 " (%s)")\$ '
-PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)")\$ '
+PS1_COLOR='\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " (%s)") \$ '
+PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)") \$ '
 PS1=$PS1_COLOR
 
-export GOPATH=~/.gopath
+export GOPATH=~/gocode
+export PATH=$PATH:~/.bash/bin:$GOPATH/bin;
