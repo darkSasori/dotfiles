@@ -97,14 +97,14 @@ gpull() {
 
 gtag() {
     if [ -z $1 ]; then
-        echo "usage: gittag tag";
+        echo "usage: gtag tag";
         exit 1;
     fi
     branch=`gbranch`;
-    gitpull;
+    gpull;
     git checkout .;
     git reset --hard HEAD;
-    git tag $2;
+    git tag $1;
     git push --tags;
     git checkout $branch;
 }
@@ -116,6 +116,19 @@ activate() {
     else
         source ~/virtualenv/$1/bin/activate;
     fi
+}
+
+virtualenv-complete() {
+    echo '_activate()
+{
+    local cur opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    opts="$(virtualenv-list)"
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+}
+complete -F _activate activate'
 }
 
 # PATH
