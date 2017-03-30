@@ -59,35 +59,6 @@ ex ()
   fi
 }
 
-# Exec
-c9(){
-	google-chrome --app="https://ide.c9.io/darksasori/$1"
-}
-
-slack(){
-	google-chrome --app="https://socialbase.slack.com"
-}
-
-gitter(){
-	google-chrome --app="https://gitter.im"
-}
-
-pokerstars(){
-	wine ~/.wine/drive_c/Program\ Files\ \(x86\)/PokerStars.NET/PokerStars.exe
-}
-
-phing(){
-    ./vendor/bin/phing $@
-}
-
-doctrine(){
-    ./vendor/bin/doctrine $@
-}
-
-phpunit(){
-    ./vendor/bin/phpunit $@
-}
-
 gpull() {
     branch=`gbranch`;
     git checkout master;
