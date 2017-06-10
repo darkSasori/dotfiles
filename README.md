@@ -11,6 +11,7 @@ Install Bash
 
 ```
 echo "source ~/.bash/bashrc" >> ~/.bashrc
+echo ". ~/.bashrc" >> ~/.bash_profile
 ```
 
 Install tmux
