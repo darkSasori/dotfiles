@@ -1,0 +1,91 @@
+#!/bin/bash
+
+cmd=$1
+session=$2
+
+LIST_PANE='tmux list-panes -a -F "#{session_name}:#{window_name}:#I:#{pane_top}:#{pane_left}:#{pane_current_path}"|grep "^$session"'
+
+help() {
+    echo "usage: $0 [save | restore | rm] session";
+    exit 1;
+}
+
+get_field() {
+    case $2 in
+        "session") i=1; ;;
+        "window") i=2; ;;
+        "index") i=3; ;;
+        "top") i=4; ;;
+        "left") i=5; ;;
+        "path") i=6; ;;
+        *) echo "$2 not found"; exit 1; ;;
+    esac
+    echo $(echo $1 |cut -d':' -f$i)
+}
+
+gen_completion() {
+    echo "_tmux_tools() {
+    local url opts
+    cur=\"\${COMP_WORDS[COMP_CWORD]}\"
+    if [ \$COMP_CWORD == 1 ]; then
+    	opts=\"save restore rm\"
+    else
+	    opts=\"$(ls ~/.tmux-sessions)\"
+    fi
+    COMPREPLY=( \$(compgen -W \""\${opts}"\" -- \${cur}) )
+}
+complete -F _tmux_tools tmux-tools
+" |sudo tee /etc/bash_completion.d/tmux-tools;
+}
+
+if [ -z $session ] || [ -z "$cmd" ]; then
+    help
+fi;
+
+case $cmd in
+    "save")
+        if [ ! -d ~/.tmux-sessions ]; then
+            mkdir ~/.tmux-sessions;
+        fi
+        if [ -z "$(eval $LIST_PANE)" ]; then
+            echo "session $session not found";
+            exit 1;
+        fi
+        echo "saving session $session";
+        cmd_tmux="tmux new -s $session"
+        lwnd="-1"
+        for p in $(eval $LIST_PANE); do
+            window=$(get_field $p window)
+            wnd_id=$(get_field $p index)
+            path=$(get_field $p path)
+            if [ "$lwnd" == "-1" ]; then
+                cmd_tmux="$cmd_tmux -n $window -c $path"
+                lwnd=$wnd_id
+            elif [ "$lwnd" == "$wnd_id" ]; then
+                top=$(get_field $p top);
+                left=$(get_field $p left);
+                if [ "$top" != "0" ]; then
+                    cmd_tmux="$cmd_tmux \; split-window -v -c $path"
+                elif [ "$left" != "0" ]; then
+                    cmd_tmux="$cmd_tmux \; split-window -h -c $path"
+                fi
+            elif [ "$lwnd" != "$wnd_id" ]; then
+                lwnd=$wnd_id
+                cmd_tmux="$cmd_tmux \; new-window -n $window -c $path"
+            fi
+        done;
+        echo $cmd_tmux > ~/.tmux-sessions/$session
+        gen_completion
+        ;;
+    "restore")
+        if [ ! -f ~/.tmux-sessions/$session ]; then
+            echo "$session not found";
+            exit 1;
+        fi
+        eval $(cat ~/.tmux-sessions/$session);
+        ;;
+    "rm")
+        rm ~/.tmux-sessions/$session;
+        gen_completion
+        ;;
+esac
