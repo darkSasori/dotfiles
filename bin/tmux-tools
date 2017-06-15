@@ -6,7 +6,7 @@ session=$2
 LIST_PANE='tmux list-panes -a -F "#{session_name}:#{window_name}:#I:#{pane_top}:#{pane_left}:#{pane_current_path}"|grep "^$session"'
 
 help() {
-    echo "usage: $0 [save | restore | rm] session";
+    echo "usage: $0 [save | restore | rm | list] session";
     exit 1;
 }
 
@@ -23,22 +23,7 @@ get_field() {
     echo $(echo $1 |cut -d':' -f$i)
 }
 
-gen_completion() {
-    echo "_tmux_tools() {
-    local url opts
-    cur=\"\${COMP_WORDS[COMP_CWORD]}\"
-    if [ \$COMP_CWORD == 1 ]; then
-    	opts=\"save restore rm\"
-    else
-	    opts=\"$(ls ~/.tmux-sessions)\"
-    fi
-    COMPREPLY=( \$(compgen -W \""\${opts}"\" -- \${cur}) )
-}
-complete -F _tmux_tools tmux-tools
-" |sudo tee /etc/bash_completion.d/tmux-tools;
-}
-
-if [ -z $session ] || [ -z "$cmd" ]; then
+if [ -z $session ] && [ -z "$cmd" ]; then
     help
 fi;
 
@@ -75,7 +60,6 @@ case $cmd in
             fi
         done;
         echo $cmd_tmux > ~/.tmux-sessions/$session
-        gen_completion
         ;;
     "restore")
         if [ ! -f ~/.tmux-sessions/$session ]; then
@@ -86,6 +70,17 @@ case $cmd in
         ;;
     "rm")
         rm ~/.tmux-sessions/$session;
-        gen_completion
+        ;;
+    "list")
+        if [ ! -d ~/.tmux-sessions ]; then
+            echo "no session saved";
+            exit 1;
+        fi
+        list=$(ls -1 ~/.tmux-sessions)
+        if [ -z "$list" ]; then
+            echo "no session saved";
+            exit 1;
+        fi
+        for i in $list; do echo $i; done;
         ;;
 esac
