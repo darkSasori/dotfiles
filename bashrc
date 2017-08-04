@@ -99,7 +99,7 @@ virtualenv-complete() {
 
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }
-complete -F _activate activate'
+complete -F _activate activate' |sudo tee /etc/bash_completion.d/activate
 }
 
 # PATH
