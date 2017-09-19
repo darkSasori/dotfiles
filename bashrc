@@ -66,20 +66,6 @@ gpull() {
     git checkout $branch;
 }
 
-gtag() {
-    if [ -z $1 ]; then
-        echo "usage: gtag tag";
-        exit 1;
-    fi
-    branch=`gbranch`;
-    gpull;
-    git checkout .;
-    git reset --hard HEAD;
-    git tag $1;
-    git push --tags;
-    git checkout $branch;
-}
-
 activate() {
     source ~/.virtualenv/$1/bin/activate;
 }
