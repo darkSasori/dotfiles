@@ -34,6 +34,7 @@ alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo
 sudo pacman -Suu'
 alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
 alias virtualenv-list="ls -1 ~/.virtualenv"
+alias git=git-smb
 
 # ex - archive extractor
 # usage: ex <file>
