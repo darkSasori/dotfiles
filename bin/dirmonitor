@@ -43,9 +43,9 @@ termCommand() {
 $CMD &
 PID=$!
 while [ 1 ]; do
-    EVENT=$(inotifywait -q -e MODIFY -e CREATE -e DELETE --format '%e' -t -1  -r $DIR)
+    EVENT=$(inotifywait -q -e MODIFY -e CREATE -e DELETE --format '%w' -t -1  -r $DIR)
     [ $? != 0 ] && exit
-    if [ $EVENT == "MODIFY" ] || [ $EVENT == "CREATE" ] || [ $EVENT == "DELETE" ]; then
+    if [ $EVENT != "./.git/" ]; then
         restartCommand
     fi
 done
