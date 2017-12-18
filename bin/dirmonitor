@@ -28,6 +28,7 @@ trap restartCommand SIGUSR1
 restartCommand() {
     kill -9 $PID
     wait $PID 2>/dev/null
+    clear
     sleep 1
     $CMD &
     PID=$!
@@ -40,6 +41,7 @@ termCommand() {
     exit 0
 }
 
+clear
 $CMD &
 PID=$!
 while [ 1 ]; do

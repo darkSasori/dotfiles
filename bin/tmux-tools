@@ -3,10 +3,15 @@
 cmd=$1
 session=$2
 
-LIST_PANE='tmux list-panes -a -F "#{session_name}:#{window_name}:#I:#{pane_top}:#{pane_left}:#{pane_current_path}"|grep "^$session"'
+LIST_PANE='tmux list-panes -a -F "#{session_name}:#{window_name}:#I:#{pane_top}:#{pane_left}:#{pane_current_path}"'
+LIST_PANE_FILTER="$LIST_PANE|grep \"^$session\""
+
+if [ ! -d ~/.tmux-sessions ]; then
+    mkdir ~/.tmux-sessions
+fi
 
 help() {
-    echo "usage: $0 [save | restore | rm | list] session";
+    echo "usage: $0 [save | restore | rm | list]";
     exit 1;
 }
 
@@ -29,36 +34,8 @@ fi;
 
 case $cmd in
     "save")
-        if [ ! -d ~/.tmux-sessions ]; then
-            mkdir ~/.tmux-sessions;
-        fi
-        if [ -z "$(eval $LIST_PANE)" ]; then
-            echo "session $session not found";
-            exit 1;
-        fi
-        echo "saving session $session";
-        cmd_tmux="tmux new -s $session"
-        lwnd="-1"
-        for p in $(eval $LIST_PANE); do
-            window=$(get_field $p window)
-            wnd_id=$(get_field $p index)
-            path=$(get_field $p path)
-            if [ "$lwnd" == "-1" ]; then
-                cmd_tmux="$cmd_tmux -n $window -c $path"
-                lwnd=$wnd_id
-            elif [ "$lwnd" == "$wnd_id" ]; then
-                top=$(get_field $p top);
-                left=$(get_field $p left);
-                if [ "$top" != "0" ]; then
-                    cmd_tmux="$cmd_tmux \; split-window -v -c $path"
-                elif [ "$left" != "0" ]; then
-                    cmd_tmux="$cmd_tmux \; split-window -h -c $path"
-                fi
-            elif [ "$lwnd" != "$wnd_id" ]; then
-                lwnd=$wnd_id
-                cmd_tmux="$cmd_tmux \; new-window -n $window -c $path"
-            fi
-        done;
+        list_pane=$(tmux list-panes -a -F "#{session_name}:#{window_name}:#{window_layout}:#{pane_current_path}"| grep $session)
+        echo $list_pane
         echo $cmd_tmux > ~/.tmux-sessions/$session
         ;;
     "restore")
@@ -72,15 +49,16 @@ case $cmd in
         rm ~/.tmux-sessions/$session;
         ;;
     "list")
-        if [ ! -d ~/.tmux-sessions ]; then
-            echo "no session saved";
-            exit 1;
-        fi
         list=$(ls -1 ~/.tmux-sessions)
-        if [ -z "$list" ]; then
-            echo "no session saved";
-            exit 1;
+        if [ ! -z "$list" ]; then
+            echo -e '\e[32mSAVED PANES\e[0m'
+            for i in $list; do echo -e '\t'$i; done;
         fi
-        for i in $list; do echo $i; done;
+
+        list_p=$(tmux list-panes -a -F "#{session_name}:#{window_name}")
+        if [ ! -z "$list_p" ]; then
+            echo -e '\e[31mTMUX PANES\e[0m'
+            for i in $list_p; do echo -e '\t'$i; done;
+        fi
         ;;
 esac
