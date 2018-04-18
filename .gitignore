@@ -1,3 +1,4 @@
 bin/sshtunnel
 bin/sb-rest
 bin/lukita_aws
+bin/sb-*

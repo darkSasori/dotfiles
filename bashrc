@@ -34,7 +34,6 @@ alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo
 sudo pacman -Suu'
 alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
 alias virtualenv-list="ls -1 ~/.virtualenv"
-alias git=git-smb
 
 # ex - archive extractor
 # usage: ex <file>
@@ -71,8 +70,7 @@ activate() {
     source ~/.virtualenv/$1/bin/activate;
 }
 
-virtualenv-complete() {
-    echo '_activate()
+_activate()
 {
     local cur opts
     COMPREPLY=()
@@ -81,8 +79,27 @@ virtualenv-complete() {
 
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }
-complete -F _activate activate' |sudo tee /etc/bash_completion.d/activate
+complete -F _activate activate
+
+# TMUXP bash completion
+_tmuxp_completion() {
+    local cur opts filedir=0
+    COMPRELY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    if [ $COMP_CWORD == 1 ]; then
+        opts="convert freeze import load"
+    elif [ "${COMP_WORDS[1]}" == "load" ]; then
+        opts=`ls ~/.tmuxp |sed -e 's/.yml//'`
+    else
+        filedir=1
+        _filedir
+    fi
+
+    if [ $filedir == 0 ]; then
+        COMPREPLY=($(compgen -W "$opts" -- ${cur}))
+    fi
 }
+complete -F _tmuxp_completion tmuxp
 
 # PATH
 
@@ -92,4 +109,4 @@ PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)") \$ '
 PS1=$PS1_COLOR
 
 export GOPATH=~/gocode
-export PATH=$PATH:~/.bash/bin:$GOPATH/bin;
+export PATH=$PATH:~/.bash/bin:$GOPATH/bin:~/.local/bin;
