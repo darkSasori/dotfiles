@@ -30,8 +30,7 @@ alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
 alias np='nano PKGBUILD'
-alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo pacman -Syyuu  &&
-sudo pacman -Suu'
+alias fixit='sudo rm -f /var/lib/pacman/db.lck && sudo pacman-mirrors -g && sudo pacman -Syyuu  && sudo pacman -Suu'
 alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
 alias virtualenv-list="ls -1 ~/.virtualenv"
 
@@ -109,4 +108,4 @@ PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)") \$ '
 PS1=$PS1_COLOR
 
 export GOPATH=~/gocode
-export PATH=$PATH:~/.bash/bin:$GOPATH/bin:~/.local/bin;
+export PATH=$PATH:~/.dotfiles/bin:$GOPATH/bin:~/.local/bin;

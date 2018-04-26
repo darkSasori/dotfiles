@@ -3,14 +3,14 @@ Download
 
 ```
 cd ~
-git clone https://github.com/darkSasori/bashfiles.git .bash
+git clone https://github.com/darkSasori/bashfiles.git .dotfiles
 ```
 
 Install Bash
 ============
 
 ```
-echo "source ~/.bash/bashrc" >> ~/.bashrc
+echo "source ~/.dotfiles/bashrc" >> ~/.bashrc
 echo ". ~/.bashrc" >> ~/.bash_profile
 ```
 
@@ -18,13 +18,20 @@ Install tmux
 ============
 
 ```
-touch ~/.tmux-local.conf
-ln -sv ~/.bash/tmux.conf ~/.tmux.conf
+>> ~/.tmux-local.conf
+ln -sv ~/.dotfiles/tmux.conf ~/.tmux.conf
 ```
 
 Install Yaourt
 =============
 
 ```
-ln -sv ~/.bash/yaourtrc ~/.yaourtrc
+ln -sv ~/.dotfiles/yaourtrc ~/.yaourtrc
+```
+
+Install Vimrc
+=============
+
+```
+ln -sv ~/.dotfiles/vimrc ~/.vimrc
 ```
