@@ -3,35 +3,41 @@ Download
 
 ```
 cd ~
-git clone https://github.com/darkSasori/bashfiles.git .dotfiles
+git clone https://github.com/darkSasori/dotfiles.git .dotfiles
+cd .dotfile
+```
+
+Install All
+===========
+
+```
+./install
 ```
 
 Install Bash
 ============
 
 ```
-echo "source ~/.dotfiles/bashrc" >> ~/.bashrc
-echo ". ~/.bashrc" >> ~/.bash_profile
+./install bash
 ```
 
 Install tmux
 ============
 
 ```
->> ~/.tmux-local.conf
-ln -sv ~/.dotfiles/tmux.conf ~/.tmux.conf
+./install tmux
 ```
 
 Install Yaourt
 =============
 
 ```
-ln -sv ~/.dotfiles/yaourtrc ~/.yaourtrc
+./install yaourtrc
 ```
 
-Install Vimrc
+Install Vim
 =============
 
 ```
-ln -sv ~/.dotfiles/vimrc ~/.vimrc
+./install vim
 ```
