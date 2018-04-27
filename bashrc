@@ -2,7 +2,7 @@ if [ -f /etc/bash_completion ]; then
 	    . /etc/bash_completion
 fi
 
-source ~/.bash/git-prompt.sh
+source ~/.dotfiles/git-prompt.sh
 
 # xhost +local:root > /dev/null 2>&1
 

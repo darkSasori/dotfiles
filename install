@@ -1,0 +1,33 @@
+#!/bin/bash
+
+install_bash () {
+	echo "source ~/.dotfiles/bashrc" >> ~/.bashrc
+	echo ". ~/.bashrc" >> ~/.bash_profile
+}
+
+install_tmux () {
+	>> ~/.tmux-local.conf
+	ln -sv ~/.dotfiles/tmux.conf ~/.tmux.conf
+}
+
+install_yaourt () {
+	ln -sv ~/.dotfiles/yaourtrc ~/.yaourtrc
+}
+
+install_vim () {
+	ln -sv ~/.dotfiles/vimrc ~/.vimrc
+	vim +PluginInstall +qall
+}
+
+case $1 in
+	"bash") install_bash ;;
+	"tmux") install_tmux ;;
+	"yaourt") install_yaourt ;;
+	"vim") install_vim ;;
+	*)
+		install_bash
+		install_tmux
+		install_yaourt
+		install_vim
+		;;
+esac
