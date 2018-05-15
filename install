@@ -1,11 +1,59 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 install_bash () {
+=======
+# returns:
+#   0: yes
+#   1: no
+#   2: default
+#   *: exit
+# examples:
+# option `test -f ~/.vimrc && test -f ~/.tmux.conf` "~/.vimrc of ~/.tmux.conf already exists" "continue [Y,n]"
+# option `hash tmuxp 2>/dev/null` "tmuxp not installed" "continue [y,N]"
+option () {
+    if [ $? != 0 ]; then
+        echo $1
+        echo -n "$2 "
+        read -n 1 op
+        if [ "$op" != "" ]; then echo; fi
+        case $op in
+            "y") return 0 ;;
+            "Y") return 0 ;;
+            "n") return 1 ;;
+            "N") return 1 ;;
+            "") return 2; ;;
+            *) echo "invalid option"; exit 1 ;;
+        esac
+    fi
+    return 0
+}
+
+option_stop () {
+    option $? "$1" "continue [y,N]"
+    if [ $? != 0 ]; then exit; fi
+}
+
+option_skip () {
+    option "$1" "skip [Y,n]"
+    if [ $? == 1 ]; then exit; fi
+    return 2
+}
+
+install_bash () {
+    grep -e "^source ~/.dotfiles/bashrc$" ~/.bashrc >/dev/null 2>/dev/null
+    test $? == 1
+    option_skip "Already exists bashrc in your ~/.bashrc"
+    if [ $? == 2 ]; then
+        return 0;
+    fi
+>>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
 	echo "source ~/.dotfiles/bashrc" >> ~/.bashrc
 	echo ". ~/.bashrc" >> ~/.bash_profile
 }
 
 install_tmux () {
+<<<<<<< HEAD
 	>> ~/.tmux-local.conf
 	ln -sv ~/.dotfiles/tmux.conf ~/.tmux.conf
 }
@@ -17,11 +65,36 @@ install_yaourt () {
 install_vim () {
 	ln -sv ~/.dotfiles/vimrc ~/.vimrc
 	vim +PluginInstall +qall
+=======
+	ln -sfv ~/.dotfiles/tmux.conf ~/.tmux.conf
+    test ! -f ~/.tmux-local.conf
+    option_skip "~/.tmux-local.conf already exists"
+    if [ $? == 2 ]; then
+        return 0;
+    fi
+	>> ~/.tmux-local.conf
+}
+
+install_yaourt () {
+	ln -sfv ~/.dotfiles/yaourtrc ~/.yaourtrc
+}
+
+install_vim () {
+	ln -sfv ~/.dotfiles/vimrc ~/.vimrc
+	vim +PlugInstall +qall
+>>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
 }
 
 case $1 in
 	"bash") install_bash ;;
+<<<<<<< HEAD
 	"tmux") install_tmux ;;
+=======
+	"tmux")
+        option_stop `hash tmuxp 2>/dev/null` "tmuxp not found"
+        install_tmux
+        ;;
+>>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
 	"yaourt") install_yaourt ;;
 	"vim") install_vim ;;
 	*)
