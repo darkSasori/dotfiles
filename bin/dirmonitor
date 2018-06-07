@@ -46,8 +46,9 @@ $CMD &
 PID=$!
 while [ 1 ]; do
     EVENT=$(inotifywait -q -e MODIFY -e CREATE -e DELETE --format '%w' -t -1  -r $DIR)
-    [ $? != 0 ] && exit
-    if [ $EVENT != "./.git/" ]; then
+    code=$?
+    [ $code != 0 ] && [ $code != 1 ] && exit
+    if [ "$EVENT" != "./.git/" ]; then
         restartCommand
     fi
 done
