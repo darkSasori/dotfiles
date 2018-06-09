@@ -1,8 +1,5 @@
 #!/bin/bash
 
-<<<<<<< HEAD
-install_bash () {
-=======
 # returns:
 #   0: yes
 #   1: no
@@ -47,25 +44,19 @@ install_bash () {
     if [ $? == 2 ]; then
         return 0;
     fi
->>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
 	echo "source ~/.dotfiles/bashrc" >> ~/.bashrc
 	echo ". ~/.bashrc" >> ~/.bash_profile
 }
 
 install_tmux () {
-<<<<<<< HEAD
-	>> ~/.tmux-local.conf
-	ln -sv ~/.dotfiles/tmux.conf ~/.tmux.conf
-}
+    option_stop `hash tmuxp 2>/dev/null` "tmuxp not found"
 
-install_yaourt () {
-	ln -sv ~/.dotfiles/yaourtrc ~/.yaourtrc
-}
+    ls ~/.tmuxp 2>/dev/null
+    if [ $? != 0 ]; then
+        ln -sfv ~/Dropbox/tmuxp ~/.tmuxp
+    fi
 
-install_vim () {
-	ln -sv ~/.dotfiles/vimrc ~/.vimrc
-	vim +PluginInstall +qall
-=======
+
 	ln -sfv ~/.dotfiles/tmux.conf ~/.tmux.conf
     test ! -f ~/.tmux-local.conf
     option_skip "~/.tmux-local.conf already exists"
@@ -76,25 +67,21 @@ install_vim () {
 }
 
 install_yaourt () {
-	ln -sfv ~/.dotfiles/yaourtrc ~/.yaourtrc
+	ln -sv ~/.dotfiles/yaourtrc ~/.yaourtrc
 }
 
 install_vim () {
-	ln -sfv ~/.dotfiles/vimrc ~/.vimrc
-	vim +PlugInstall +qall
->>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
+	ln -sv ~/.dotfiles/vimrc ~/.vimrc
+	vim +PluginInstall +qall
+}
+
+install_yaourt () {
+	ln -sfv ~/.dotfiles/yaourtrc ~/.yaourtrc
 }
 
 case $1 in
 	"bash") install_bash ;;
-<<<<<<< HEAD
 	"tmux") install_tmux ;;
-=======
-	"tmux")
-        option_stop `hash tmuxp 2>/dev/null` "tmuxp not found"
-        install_tmux
-        ;;
->>>>>>> 35a0389271adc525d96c6cf26030269a85f87f79
 	"yaourt") install_yaourt ;;
 	"vim") install_vim ;;
 	*)
