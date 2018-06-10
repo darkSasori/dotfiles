@@ -100,12 +100,22 @@ _tmuxp_completion() {
 }
 complete -F _tmuxp_completion tmuxp
 
-# PATH
-
 # prompt
-PS1_COLOR='\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " (%s)") \$ '
-PS1_NOCOLOR='[\u@\h:\w]$(__git_ps1 " (%s)") \$ '
-PS1=$PS1_COLOR
+__ps1() {
+    local pwd=`pwd`
+    local len=$((`tput cols` - ${#pwd}))
+
+    if  [ $len -lt 40 ]; then
+        echo ""
+    fi
+    echo -n " "
+}
+
+PS1='\w $(__git_ps1 "(%s)")$(__ps1)$ '
+if [ `tput colors` -ge 8 ]; then
+    PS1='\[\033[01;34m\]\w\[\033[00m\] $(__git_ps1 "(%s)")$(__ps1)$ '
+fi
+
 
 export GOPATH=~/gocode
 export PATH=$PATH:~/.dotfiles/bin:$GOPATH/bin:~/.local/bin;

@@ -1,0 +1,45 @@
+#!/bin/bash
+rm -Rf ~/.ssh/sb_config
+touch ~/.ssh/sb_config
+TMP=~/.ssh/sb_config
+REGIONS='sa-east-1 us-east-1'
+for z in $REGIONS; do
+  echo "Região: $z "
+  for i in \
+   `aws ec2 describe-instances --region ${z} --filters 'Name=instance-state-name,Values=running' | \
+  jq '.Reservations[].Instances[] |
+  (
+    .Tags[] |
+    select(.Key == "ssh_key") |
+    .Value
+  ) as $key |
+  (
+    .Tags[] |
+    select(.Key == "Name") |
+    .Value
+  ) as $name |
+  (
+    .Tags[] |
+    select(.Key == "ssh_port") |
+    .Value
+  ) as $port |
+  (
+    .Tags[] |
+    select(.Key == "ssh_user") |
+    .Value
+  ) as $user |
+  .PrivateIpAddress as $ip |
+  "\($name)%\($key)%\($user)%\($ip)%\($port)"' | sed 's,\",,g' | sort`; do
+
+    NOME=`cut -d '%' -f 1 <<< $i`
+    KEY=`cut -d '%' -f 2 <<< $i`
+    USER=`cut -d '%' -f 3 <<< $i`
+    IP=`cut -d '%' -f 4 <<< $i`
+    PORT=`cut -d '%' -f 5 <<< $i`
+    echo "ssh ${NOME}_${IP} -t 'sudo su' "
+    #SSH="ssh -i $KEY $USER@$IP -p $PORT"
+    SSH="Host ${NOME}_${IP} \n  HostName $IP \n  User $USER \n  Port $PORT \n  IdentityFile ~/.ssh/$KEY \n ForwardAgent yes \n StrictHostKeyChecking no \n UserKnownHostsFile /dev/null \n\n"
+
+    echo -e ${SSH} >> ${TMP}
+  done;
+done;
