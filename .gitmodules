@@ -1,0 +1,3 @@
+[submodule "deps/bashmarks"]
+	path = deps/bashmarks
+	url = git@github.com:huyng/bashmarks.git

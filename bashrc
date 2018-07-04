@@ -119,3 +119,5 @@ fi
 
 export GOPATH=~/gocode
 export PATH=$PATH:~/.dotfiles/bin:$GOPATH/bin:~/.local/bin;
+
+source ~/.dotfiles/deps/deps.sh
