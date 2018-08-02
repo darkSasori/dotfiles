@@ -66,7 +66,16 @@ gpull() {
 }
 
 activate() {
-    source ~/.virtualenv/$1/bin/activate;
+    dir=$1
+    if [ -z $dir ]; then
+        dir=$(basename $PWD)
+    fi
+    file=~/.virtualenv/$dir/bin/activate
+    if [ -f "$file" ]; then
+        source $file
+    else
+        echo "Virtualenv '$dir' not found"
+    fi
 }
 
 _activate()
