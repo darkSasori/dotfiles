@@ -3,8 +3,7 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 source ~/.dotfiles/git-prompt.sh
-
-# xhost +local:root > /dev/null 2>&1
+source ~/.dotfiles/lib.sh
 
 complete -cf sudo
 
