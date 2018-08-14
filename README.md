@@ -4,6 +4,7 @@ Download
 ```
 cd ~
 git clone https://github.com/darkSasori/dotfiles.git .dotfiles
+git submodule update --init
 cd .dotfile
 ```
 
@@ -40,4 +41,11 @@ Install Vim
 
 ```
 ./install vim
+```
+
+Install Dropbox
+=============
+
+```
+./install dropbox
 ```
