@@ -41,7 +41,7 @@ install_dropbox () {
 	stop_if_fail `hash dropbox 2>/dev/null` "dropbox not found"
     option_stop `hash tmuxp 2>/dev/null` "tmuxp not found"
 
-	ln -sfv ~/Dropbox/tmuxp ~/.tmuxp
+	ln -sfv /opt/data/dropbox/Dropbox/tmuxp ~/.tmuxp
 }
 
 case $1 in
