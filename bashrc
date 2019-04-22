@@ -59,7 +59,7 @@ ex ()
 
 gpull() {
     branch=`gbranch`;
-    git checkout develop;
+    git checkout master;
     git pull -p;
     git checkout $branch;
 }

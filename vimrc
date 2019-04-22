@@ -47,8 +47,9 @@ Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
-Plug 'guenti/vim-php-cs-fixer'
+Plug 'stephpy/vim-php-cs-fixer'
 Plug 'sjl/gundo.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
@@ -636,3 +637,6 @@ autocmd BufWinLeave * call clearmatches()
 
 " Automatically removing all trailing whitespace
 autocmd BufWritePre * :%s/\s\+$//e
+
+" php-cs-fixer
+autocmd BufWritePre *.php silent! call PhpCsFixerFixFile()<CR>
