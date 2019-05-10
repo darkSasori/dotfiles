@@ -540,7 +540,7 @@ augroup go
   au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
   au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
-
+  au FileType go nnoremap <silent> gb :GoDefPop<CR>
 augroup END
 
 
@@ -639,4 +639,8 @@ autocmd BufWinLeave * call clearmatches()
 autocmd BufWritePre * :%s/\s\+$//e
 
 " php-cs-fixer
-autocmd BufWritePre *.php silent! call PhpCsFixerFixFile()<CR>
+" let g:php_cs_fixer_config_file = "~/php_cs.dist"
+" autocmd BufWritePre *.php silent! call PhpCsFixerFixFile()<CR>
+
+" ctrlp
+noremap <C-b> :CtrlPBuffer<CR>
