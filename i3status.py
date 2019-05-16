@@ -13,10 +13,14 @@ status.register('disk',
                 path='/',
                 format='{percentage_avail}%')
 
+status.register('network',
+                interface='enp3s0',
+                format_up='{interface} {v4cidr}')
+
 hostname = os.uname()[1]
-if hostname == 'lineufelipe.ws':
+if hostname == 'darksasori':
     status.register('network',
-                    interface='enp3s0',
+                    interface='wlp2s0',
                     format_up='{interface} {v4cidr}')
 
 status.run()
