@@ -200,3 +200,17 @@ workspace $ws3 output "VGA-1"
 workspace $ws2 output "DVI-I-1"
 workspace $ws4 output "DVI-I-1"
 workspace $ws5 output "DVI-I-1"
+
+# change monitors
+set $monitors "monitors"
+mode $monitors{
+
+        bindsym h exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p home
+        bindsym w exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p work
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+m mode $monitors
