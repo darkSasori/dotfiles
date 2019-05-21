@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 
+	"go.i3wm.org/i3"
 	"gopkg.in/yaml.v2"
 )
 
@@ -36,8 +37,8 @@ func init() {
 	}
 
 	path := fmt.Sprintf("%s/.config/i3/profiles.yml", usr.HomeDir)
-	flag.StringVar(&profilePath, "c", path, "-c config path")
-	flag.StringVar(&profileName, "p", "", "-p profile name")
+	flag.StringVar(&profilePath, "c", path, "config path")
+	flag.StringVar(&profileName, "p", "", "profile name")
 	flag.BoolVar(&isListProfiles, "l", false, "list profiles")
 	flag.BoolVar(&isListMonitors, "m", false, "list monitors")
 }
@@ -59,9 +60,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	if isListMonitors {
+		fmt.Println("Monitors:")
 		for m, _ := range monitors {
-			fmt.Println(m)
+			fmt.Printf("\t-%s\n", m)
 		}
 		return
 	}
@@ -80,8 +83,9 @@ func main() {
 }
 
 func listProfiles(p profiles) {
+	fmt.Println("Profiles:")
 	for name, _ := range p {
-		fmt.Println(name)
+		fmt.Printf("\t-%s\n", name)
 	}
 }
 
@@ -115,21 +119,24 @@ func listMonitors() (monitors, error) {
 }
 
 func changeWorkspace(p profile, m monitors) error {
-	//move := "MOVE WORKSPACE %s OUTPUT %s"
 	primary := ""
 	for monitor, _ := range m {
 		primary = monitor
 		break
 	}
 
-	fmt.Printf("primary: %s\n", primary)
-	fmt.Println(m)
-
+	move := "[workspace=\"%s\"] move workspace to output %s"
 	for _, m1 := range p.Monitors {
 		c := m1.Monitor
-		fmt.Println(c)
-		if monitor, ok := m[c]; !ok {
-			fmt.Println(monitor)
+		if _, ok := m[c]; !ok {
+			c = primary
+		}
+		for _, w := range m1.Workspaces {
+			cmd := fmt.Sprintf(move, w.Name, c)
+			_, err := i3.RunCommand(cmd)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil

@@ -200,10 +200,3 @@ workspace $ws3 output "VGA-1"
 workspace $ws2 output "DVI-I-1"
 workspace $ws4 output "DVI-I-1"
 workspace $ws5 output "DVI-I-1"
-
-set $displayMode "Set display mode [w]ork or [h]ome"
-mode $displayMode {
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+m mode $displayMode

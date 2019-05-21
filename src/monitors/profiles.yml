@@ -9,11 +9,11 @@ home:
         - name: '5:Utils'
 work:
   monitors:
-    - monitor: VGA1
+    - monitor: VGA-1
       workspaces:
         - name: '1:Web'
         - name: '3:Tools'
-    - monitor: HDMI1
+    - monitor: DVI-I-1
       workspaces:
         - name: '2:Code'
         - name: '4:IM'
