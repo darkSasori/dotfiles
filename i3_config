@@ -198,6 +198,7 @@ assign [class="Valentina Studio"] $ws3
 
 # Autostart
 exec --no-startup-id yakuake
+exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id xautolock -time 5 -locker blurlock
 
 # Workspace monitor
