@@ -184,6 +184,8 @@ bindsym $mod+F2 exec rofi -show run
 bindsym Mod4+l exec blurlock
 bindcode 172 exec playerctl play-pause
 
+bindsym --whole-window Mod4+button4 workspace prev_on_output
+bindsym --whole-window Mod4+button5 workspace next_on_output
 
 # Config
 workspace_auto_back_and_forth yes
