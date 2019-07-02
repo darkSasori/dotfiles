@@ -23,4 +23,6 @@ if hostname == 'darksasori':
                     interface='wlp2s0',
                     format_up='{interface} {v4cidr}')
 
+    status.register("battery")
+
 status.run()
