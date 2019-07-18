@@ -182,6 +182,7 @@ bindsym Mod4+2 exec setxkbmap -layout br -option ctrl:nocaps
 bindsym Mod4+3 exec setxkbmap -layout us -option ctrl:nocaps
 bindsym $mod+F2 exec rofi -show run
 bindsym Mod4+l exec blurlock
+bindsym Print exec spectacle
 bindcode 172 exec playerctl play-pause
 
 bindsym --whole-window Mod4+button4 workspace prev_on_output
