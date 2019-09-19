@@ -34,6 +34,7 @@ alias gbranch="git branch |grep '^*' |cut -d' ' -f2"
 alias virtualenv-list="ls -1 ~/.virtualenv"
 alias fucking-commit="git add . && git commit --amend --no-edit && git push -f"
 alias bc='bc -l'
+alias poker='wine ~/.wine/drive_c/Program\ Files\ \(x86\)/PokerStars/PokerStars.exe'
 
 # ex - archive extractor
 # usage: ex <file>
