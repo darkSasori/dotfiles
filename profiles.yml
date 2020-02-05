@@ -9,12 +9,21 @@ home:
         - name: '5:Utils'
 work:
   monitors:
-    - monitor: VGA-1
+    - monitor: eDP1
       workspaces:
         - name: '1:Web'
         - name: '3:Tools'
-    - monitor: DVI-I-1
+    - monitor: HDMI1
       workspaces:
+        - name: '2:Code'
+        - name: '4:IM'
+        - name: '5:Utils'
+single:
+  monitors:
+    - monitor: eDP1
+      workspaces:
+        - name: '1:Web'
+        - name: '3:Tools'
         - name: '2:Code'
         - name: '4:IM'
         - name: '5:Utils'

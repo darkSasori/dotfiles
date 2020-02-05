@@ -170,7 +170,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3pystatus -c ~/.dotfiles/i3status.py
+        status_command i3status -c ~/.dotfiles/i3status.conf
         position bottom
         workspace_buttons yes
 }
@@ -203,6 +203,7 @@ assign [class="Valentina Studio"] $ws3
 exec --no-startup-id yakuake
 exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id xautolock -time 5 -locker blurlock
+exec --no-startup-id xss-lock -- blurlock
 
 # Workspace monitor
 workspace $ws1 output "VGA-1"
@@ -216,7 +217,8 @@ set $monitors "monitors"
 mode $monitors{
 
         bindsym h exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p home
-        bindsym w exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p work
+        bindsym 1 exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p single
+        bindsym 2 exec ~/.dotfiles/bin/monitors -c ~/.dotfiles/profiles.yml -p work
 
         bindsym Return mode "default"
         bindsym Escape mode "default"

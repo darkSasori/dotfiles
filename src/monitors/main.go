@@ -110,7 +110,7 @@ func listMonitors() (monitors, error) {
 		return ret, err
 	}
 
-	re := regexp.MustCompile(`[A-Z0-1-]{2,}\n`)
+	re := regexp.MustCompile(`[a-zA-Z0-1-]{2,}\n`)
 	for _, monitor := range re.FindAllString(string(out), -1) {
 		name := strings.Replace(monitor, "\n", "", 1)
 		ret[name] = struct{}{}
